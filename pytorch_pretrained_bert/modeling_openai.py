@@ -726,7 +726,7 @@ class OpenAIGPTLMHeadModel(OpenAIGPTPreTrainedModel):
             loss = loss_fct(shift_logits.view(-1, shift_logits.size(-1)),
                             shift_labels.view(-1))
             return loss
-        return lm_logits
+        return lm_logits, hidden_states
 
 
 class OpenAIGPTDoubleHeadsModel(OpenAIGPTPreTrainedModel):
