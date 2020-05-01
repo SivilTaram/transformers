@@ -132,16 +132,9 @@ class OpenAIGPTTokenizer(object):
         return tokenizer
 
     def __init__(self, vocab_file, merges_file, special_tokens=None, max_len=None):
-        try:
-            import ftfy
-            import spacy
-            self.nlp = spacy.load('en', disable=['parser', 'tagger', 'ner', 'textcat'])
-            self.fix_text = ftfy.fix_text
-        except ImportError:
-            logger.warning("ftfy or spacy is not installed using BERT BasicTokenizer instead of SpaCy & ftfy.")
-            self.nlp = BasicTokenizer(do_lower_case=True,
-                                      never_split=special_tokens if special_tokens is not None else [])
-            self.fix_text = None
+        self.nlp = BasicTokenizer(do_lower_case=True,
+                                  never_split=special_tokens if special_tokens is not None else [])
+        self.fix_text = None
 
         self.max_len = max_len if max_len is not None else int(1e12)
         self.encoder = json.load(open(vocab_file, encoding="utf-8"))
